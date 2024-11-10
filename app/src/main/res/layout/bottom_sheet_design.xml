@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#00FFFFFF"
+    android:padding="15dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="8dp"
+        android:layout_marginTop="20dp"
+        app:cardElevation="20dp"
+        android:backgroundTint="@color/white">
+
+        <ImageView
+            android:id="@+id/generated_qr"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"/>
+
+    </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/download_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DOWNLOAD QR"
+            android:padding="12dp"
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:textSize="16sp"
+            android:layout_marginTop="25dp"
+            android:drawableLeft="@drawable/download_icon"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:shadowColor="#000000"
+            android:backgroundTint="#1E88E5"
+            app:elevation="10dp"
+            />
+
+
+    <Button
+        android:id="@+id/cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CANCEL"
+        android:textSize="16sp"
+        android:layout_marginTop="15dp"
+        android:drawableLeft="@drawable/cancel_button_filled"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:shadowColor="#000000"
+        android:backgroundTint="#D81B2B"
+        app:elevation="10dp"
+        />
+
+
+</LinearLayout>

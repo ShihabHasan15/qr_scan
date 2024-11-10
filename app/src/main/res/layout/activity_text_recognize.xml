@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".text_recognize_activity"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:background="@color/charcoal_gray"
+        >
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:backgroundTint="@color/white"
+            >
+
+            <ImageView
+                android:id="@+id/back_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back_arrow_24"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text Recognize"
+                android:fontFamily="@font/bebasneue_regular"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_marginLeft="30dp"
+                />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:layout_marginTop="?attr/actionBarSize">
+
+        <ImageView
+            android:id="@+id/displayImage"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/choose_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cornerRadius="5dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/teal"
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:drawableLeft="@drawable/gallery_button"
+            android:text="CHOOSE IMAGE"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:backgroundTint="@color/white"
+            android:layout_gravity="center"
+            app:strokeColor="@color/black"
+            app:cardElevation="8dp"
+            app:strokeWidth="2px"
+            android:layout_marginBottom="10dp">
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/recognized_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textIsSelectable="true"
+                        />
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_marginBottom="5dp"
+            android:weightSum="3"
+            >
+
+            <Button
+                android:id="@+id/copy_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:cornerRadius="10dp"
+                android:text="Copy"
+                android:padding="10dp"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:drawableLeft="@drawable/copy_icon"
+                android:backgroundTint="@color/charcoal_gray"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:enabled="false"
+                />
+
+            <Button
+                android:id="@+id/share_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:cornerRadius="10dp"
+                android:text="Share"
+                android:padding="10dp"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:drawableLeft="@drawable/share_button_3"
+                android:backgroundTint="@color/charcoal_gray"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:enabled="false"
+                />
+
+            <Button
+                android:id="@+id/clear_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:cornerRadius="10dp"
+                android:text="Clear"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:backgroundTint="@color/charcoal_gray"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:enabled="false"
+                />
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:id="@+id/banner_ad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="5dp"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</LinearLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group
+        android:id="@+id/first_group">
+
+    <item
+        android:id="@+id/generate_qr_code"
+        android:title="Generate QR Code"
+        android:icon="@drawable/generate_qr_hundred"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/barcode_scan"
+        android:title="Scan QR Code"
+        android:icon="@drawable/barcode_scan_hundred"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/image_to_text_convert"
+        android:title="Image to Text"
+        android:icon="@drawable/image_to_text_hundred"
+        app:showAsAction="always"
+        />
+
+    </group>
+
+    <group>
+
+        <item
+            android:id="@+id/privacy_policy"
+            android:title="Privacy Policy"
+            app:showAsAction="always"
+            android:icon="@drawable/privacy_colored"
+            />
+
+        <item
+            android:id="@+id/rating"
+            android:title="Rate Us"
+            android:icon="@drawable/rating"
+            app:showAsAction="always"
+            />
+
+        <item
+            android:id="@+id/share_app"
+            android:title="Share App"
+            android:icon="@drawable/share_colored"
+            app:showAsAction="always"
+            />
+
+    </group>
+
+</menu>

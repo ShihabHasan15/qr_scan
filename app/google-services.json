@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "6175052828",
+    "project_id": "qr-scan-4b459",
+    "storage_bucket": "qr-scan-4b459.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:6175052828:android:0471922c283b13c1bcfbd9",
+        "android_client_info": {
+          "package_name": "com.devsyncit.qrscan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfwo9MslJ_Q6hL9w_tPya8epKqOp8kJos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
