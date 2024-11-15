@@ -186,27 +186,27 @@ public class barcode_activity extends AppCompatActivity {
 
                 v.startAnimation(button_anim);
 
-                if (ContextCompat.checkSelfPermission(barcode_activity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(barcode_activity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                        // Permission was denied but "Don't ask again" was not selected
-                        // Request the permission again
-                        ActivityCompat.requestPermissions(barcode_activity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
-                    } else {
-                        // Permission was denied and "Don't ask again" was selected
-                        // Show an explanation dialog
-                        showSettingsDialog();
-                    }
-
-                }else{
+//                if (ContextCompat.checkSelfPermission(barcode_activity.this, Manifest.permission.READ_MEDIA_IMAGES)
+//                        != PackageManager.PERMISSION_GRANTED) {
+//
+//                    if (ActivityCompat.shouldShowRequestPermissionRationale(barcode_activity.this, Manifest.permission.READ_MEDIA_IMAGES)) {
+//                        // Permission was denied but "Don't ask again" was not selected
+//                        // Request the permission again
+//                        ActivityCompat.requestPermissions(barcode_activity.this, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 2);
+//                    } else {
+//                        // Permission was denied and "Don't ask again" was selected
+//                        // Show an explanation dialog
+//                        showSettingsDialog();
+//                    }
+//
+//                }else{
 
                     Intent gallery_intent = new Intent();
                     gallery_intent.setType("image/*");
                     gallery_intent.setAction(Intent.ACTION_GET_CONTENT);
                     gallery_launcher.launch(gallery_intent);
 
-                }
+//                }
 
 
 
@@ -221,24 +221,24 @@ public class barcode_activity extends AppCompatActivity {
                 v.startAnimation(button_anim);
 
 
-                if (checkPermission(Manifest.permission.CAMERA, CAMERA_REQUEST_CODE)==false) {
+//                if (checkPermission(Manifest.permission.CAMERA, CAMERA_REQUEST_CODE)==false) {
 
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(barcode_activity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                        // Permission was denied but "Don't ask again" was not selected
-                        // Request the permission again
-                        checkPermission(Manifest.permission.CAMERA, CAMERA_REQUEST_CODE);
-                    } else {
-                        // Permission was denied and "Don't ask again" was selected
-                        // Show an explanation dialog
-                        showSettingsDialog();
-                    }
-
-                }else{
+//                    if (ActivityCompat.shouldShowRequestPermissionRationale(barcode_activity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//                        // Permission was denied but "Don't ask again" was not selected
+//                        // Request the permission again
+//                        checkPermission(Manifest.permission.CAMERA, CAMERA_REQUEST_CODE);
+//                    } else {
+//                        // Permission was denied and "Don't ask again" was selected
+//                        // Show an explanation dialog
+//                        showSettingsDialog();
+//                    }
+//
+//                }else{
 
                     Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     camera_launcher.launch(camera_intent);
 
-                }
+//                }
 
 
 
@@ -677,7 +677,6 @@ public class barcode_activity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
-
 
     public boolean checkPermission(String permission, int requestCode){
 

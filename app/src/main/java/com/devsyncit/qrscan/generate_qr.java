@@ -253,25 +253,44 @@ public class generate_qr extends AppCompatActivity {
                 Bitmap bitmap = generated_qr.getDrawingCache();
                 v.startAnimation(button_anim);
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
 
-                if (ContextCompat.checkSelfPermission(generate_qr.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (ContextCompat.checkSelfPermission(generate_qr.this, Manifest.permission.READ_MEDIA_IMAGES)
                         != PackageManager.PERMISSION_GRANTED) {
 
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(generate_qr.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(generate_qr.this, Manifest.permission.READ_MEDIA_IMAGES)) {
                         // Permission was denied but "Don't ask again" was not selected
                         // Request the permission again
-                        ActivityCompat.requestPermissions(generate_qr.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                        ActivityCompat.requestPermissions(generate_qr.this, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 1);
                     } else {
                         // Permission was denied and "Don't ask again" was selected
                         // Show an explanation dialog
                         showSettingsDialog();
                     }
-
-                }else{
+                }else {
 
                     saveImageToGallery(bitmap);
-
                 }
+
+            } else {
+                    if (ContextCompat.checkSelfPermission(generate_qr.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(generate_qr.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            // Permission was denied but "Don't ask again" was not selected
+                            // Request the permission again
+                            ActivityCompat.requestPermissions(generate_qr.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                        } else {
+                            // Permission was denied and "Don't ask again" was selected
+                            // Show an explanation dialog
+                            showSettingsDialog();
+                        }
+                    }else {
+
+                        saveImageToGallery(bitmap);
+                    }
+                }
+
 
             }
         });
