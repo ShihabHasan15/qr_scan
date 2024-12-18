@@ -72,15 +72,15 @@ import com.google.android.material.navigation.NavigationView;
 
         //=======================================
 
-        AdView adView = new AdView(this);
-        adView.setAdUnitId("ca-app-pub-6538546097765410/4579893970");
-        adView.setAdSize(AdSize.BANNER);
-
-        banner_ad.removeAllViews();
-        banner_ad.addView(adView);
-
-        AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
-        adView.loadAd(adRequest);
+//        AdView adView = new AdView(this);
+//        adView.setAdUnitId("ca-app-pub-6538546097765410/4579893970");
+//        adView.setAdSize(AdSize.BANNER);
+//
+//        banner_ad.removeAllViews();
+//        banner_ad.addView(adView);
+//
+//        AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
+//        adView.loadAd(adRequest);
 
 //drawer listener
         

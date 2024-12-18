@@ -68,6 +68,8 @@ public class barcode_activity extends AppCompatActivity {
     Animation button_anim;
     TextView first_result, second_result, first_result_type, second_result_type, first_colon;
     LinearLayout banner_ad;
+    PermissionHandler permissionHandler;
+    CameraPermissionHandler cameraPermissionHandler;
 
 
     @SuppressLint("MissingInflatedId")
@@ -98,19 +100,21 @@ public class barcode_activity extends AppCompatActivity {
         button2 = findViewById(R.id.button2);
         button3 = findViewById(R.id.button3);
         banner_ad = findViewById(R.id.banner_ad);
+        permissionHandler= new PermissionHandler(barcode_activity.this);
+        cameraPermissionHandler = new CameraPermissionHandler(barcode_activity.this);
 
 
         //==================================================
 
-        AdView adView = new AdView(this);
-        adView.setAdUnitId("ca-app-pub-6538546097765410/4579893970");
-        adView.setAdSize(AdSize.BANNER);
-
-        banner_ad.removeAllViews();
-        banner_ad.addView(adView);
-
-        AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
-        adView.loadAd(adRequest);
+//        AdView adView = new AdView(this);
+//        adView.setAdUnitId("ca-app-pub-6538546097765410/4579893970");
+//        adView.setAdSize(AdSize.BANNER);
+//
+//        banner_ad.removeAllViews();
+//        banner_ad.addView(adView);
+//
+//        AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
+//        adView.loadAd(adRequest);
 
         //====================================================
 
@@ -186,28 +190,14 @@ public class barcode_activity extends AppCompatActivity {
 
                 v.startAnimation(button_anim);
 
-//                if (ContextCompat.checkSelfPermission(barcode_activity.this, Manifest.permission.READ_MEDIA_IMAGES)
-//                        != PackageManager.PERMISSION_GRANTED) {
-//
-//                    if (ActivityCompat.shouldShowRequestPermissionRationale(barcode_activity.this, Manifest.permission.READ_MEDIA_IMAGES)) {
-//                        // Permission was denied but "Don't ask again" was not selected
-//                        // Request the permission again
-//                        ActivityCompat.requestPermissions(barcode_activity.this, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 2);
-//                    } else {
-//                        // Permission was denied and "Don't ask again" was selected
-//                        // Show an explanation dialog
-//                        showSettingsDialog();
-//                    }
-//
-//                }else{
-
+                if (permissionHandler.checkStoragePermission()){
                     Intent gallery_intent = new Intent();
                     gallery_intent.setType("image/*");
                     gallery_intent.setAction(Intent.ACTION_GET_CONTENT);
                     gallery_launcher.launch(gallery_intent);
-
-//                }
-
+                }else {
+                    permissionHandler.requestPermissions();
+                }
 
 
             }
@@ -221,26 +211,12 @@ public class barcode_activity extends AppCompatActivity {
                 v.startAnimation(button_anim);
 
 
-//                if (checkPermission(Manifest.permission.CAMERA, CAMERA_REQUEST_CODE)==false) {
-
-//                    if (ActivityCompat.shouldShowRequestPermissionRationale(barcode_activity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-//                        // Permission was denied but "Don't ask again" was not selected
-//                        // Request the permission again
-//                        checkPermission(Manifest.permission.CAMERA, CAMERA_REQUEST_CODE);
-//                    } else {
-//                        // Permission was denied and "Don't ask again" was selected
-//                        // Show an explanation dialog
-//                        showSettingsDialog();
-//                    }
-//
-//                }else{
-
+                if (cameraPermissionHandler.checkStoragePermission()){
                     Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     camera_launcher.launch(camera_intent);
-
-//                }
-
-
+                }else {
+                    cameraPermissionHandler.requestPermissions();
+                }
 
             }
         });
@@ -649,28 +625,24 @@ public class barcode_activity extends AppCompatActivity {
 
 
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//        if (requestCode == CAMERA_REQUEST_CODE){
-//            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)){
-//                Toast.makeText(getApplicationContext(), "Camera Permission Denied", Toast.LENGTH_SHORT).show();
-//            }else {
-//                checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_STORAGE_CODE);
-//            }
-//        } else if (requestCode == READ_STORAGE_CODE) {
-//            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)){
-//                Toast.makeText(getApplicationContext(), "Storage Permission Denied", Toast.LENGTH_SHORT).show();
-//            }else {
-//                checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_STORAGE_CODE);
-//            }
-//        } else if (requestCode == WRITE_STORAGE_CODE) {
-//            if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)){
-//                Toast.makeText(getApplicationContext(), "Storage Permission Denied", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && permissions.length == grantResults.length) {
+            boolean allPermissionsGranted = true;
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+            if (!allPermissionsGranted) {
+                permissionHandler.showDialog(permissions, requestCode);
+            } else {
+                Toast.makeText(barcode_activity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -678,37 +650,4 @@ public class barcode_activity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
-    public boolean checkPermission(String permission, int requestCode){
-
-        if(ContextCompat.checkSelfPermission(barcode_activity.this, permission) == PackageManager.PERMISSION_DENIED){
-
-            ActivityCompat.requestPermissions(barcode_activity.this, new String[]{permission}, requestCode);
-
-            return false;
-        }
-        return true;
-    }
-
-    private void showSettingsDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("Permission Required")
-                .setMessage("This app needs permission to scan QR codes. Please enable it in the app settings.")
-                .setPositiveButton("Go to Settings", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Open app settings
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", getPackageName(), null);
-                        intent.setData(uri);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
-    }
 }

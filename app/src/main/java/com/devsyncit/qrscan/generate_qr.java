@@ -70,6 +70,7 @@ public class generate_qr extends AppCompatActivity {
     ColorStateList colorStateList;
     TextView item_email, item_contact, item_url, selected;
     int item_selected = 0;
+    PermissionHandler permissionHandler;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -85,6 +86,7 @@ public class generate_qr extends AppCompatActivity {
         back_arrow = findViewById(R.id.back_arrow);
         banner_ad = findViewById(R.id.banner_ad);
         generate_btn = findViewById(R.id.generate_btn);
+        permissionHandler = new PermissionHandler(generate_qr.this);
 
         item_email = findViewById(R.id.item_email);
         item_url = findViewById(R.id.item_url);
@@ -137,15 +139,15 @@ public class generate_qr extends AppCompatActivity {
 
         //==================================================
 
-        AdView adView = new AdView(this);
-        adView.setAdUnitId("ca-app-pub-6538546097765410/4579893970");
-        adView.setAdSize(AdSize.BANNER);
-
-        banner_ad.removeAllViews();
-        banner_ad.addView(adView);
-
-        AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
-        adView.loadAd(adRequest);
+//        AdView adView = new AdView(this);
+//        adView.setAdUnitId("ca-app-pub-6538546097765410/4579893970");
+//        adView.setAdSize(AdSize.BANNER);
+//
+//        banner_ad.removeAllViews();
+//        banner_ad.addView(adView);
+//
+//        AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
+//        adView.loadAd(adRequest);
 
         //====================================================
 
@@ -253,43 +255,12 @@ public class generate_qr extends AppCompatActivity {
                 Bitmap bitmap = generated_qr.getDrawingCache();
                 v.startAnimation(button_anim);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-
-                if (ContextCompat.checkSelfPermission(generate_qr.this, Manifest.permission.READ_MEDIA_IMAGES)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(generate_qr.this, Manifest.permission.READ_MEDIA_IMAGES)) {
-                        // Permission was denied but "Don't ask again" was not selected
-                        // Request the permission again
-                        ActivityCompat.requestPermissions(generate_qr.this, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 1);
-                    } else {
-                        // Permission was denied and "Don't ask again" was selected
-                        // Show an explanation dialog
-                        showSettingsDialog();
-                    }
-                }else {
-
+                if (permissionHandler.checkStoragePermission()){
                     saveImageToGallery(bitmap);
+                }else {
+                    permissionHandler.requestPermissions();
                 }
 
-            } else {
-                    if (ContextCompat.checkSelfPermission(generate_qr.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(generate_qr.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            // Permission was denied but "Don't ask again" was not selected
-                            // Request the permission again
-                            ActivityCompat.requestPermissions(generate_qr.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                        } else {
-                            // Permission was denied and "Don't ask again" was selected
-                            // Show an explanation dialog
-                            showSettingsDialog();
-                        }
-                    }else {
-
-                        saveImageToGallery(bitmap);
-                    }
-                }
 
 
             }
@@ -378,48 +349,23 @@ public class generate_qr extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                generated_qr.setDrawingCacheEnabled(true);
-                Bitmap bitmap = generated_qr.getDrawingCache();
-
-                saveImageToGallery(bitmap);
-
+        if (requestCode == 1 && permissions.length == grantResults.length) {
+            boolean allPermissionsGranted = true;
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+            if (!allPermissionsGranted) {
+                permissionHandler.showDialog(permissions, requestCode);
             } else {
-                // Permission denied, notify the user
-                Toast.makeText(this, "Permission is required to download the QR code", Toast.LENGTH_SHORT).show();
+                Toast.makeText(generate_qr.this, "Permission Granted", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-
-
-    private void showSettingsDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("Permission Required")
-                .setMessage("This app needs storage permission to download QR codes. Please enable it in the app settings.")
-                .setPositiveButton("Go to Settings", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Open app settings
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", getPackageName(), null);
-                        intent.setData(uri);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
     }
 
 }

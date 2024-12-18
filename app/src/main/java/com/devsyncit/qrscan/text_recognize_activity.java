@@ -56,6 +56,7 @@ public class text_recognize_activity extends AppCompatActivity {
     TextView recognized_text;
     Animation button_anim;
     LinearLayout banner_ad;
+    PermissionHandler permissionHandler;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -71,6 +72,8 @@ public class text_recognize_activity extends AppCompatActivity {
         clear_button = findViewById(R.id.clear_button);
         back_arrow = findViewById(R.id.back_arrow);
 
+        permissionHandler = new PermissionHandler(text_recognize_activity.this);
+
         //
 
 
@@ -83,15 +86,15 @@ public class text_recognize_activity extends AppCompatActivity {
 
         //==================================================
 
-        AdView adView = new AdView(this);
-        adView.setAdUnitId("ca-app-pub-6538546097765410/4579893970");
-        adView.setAdSize(AdSize.BANNER);
-
-        banner_ad.removeAllViews();
-        banner_ad.addView(adView);
-
-        AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
-        adView.loadAd(adRequest);
+//        AdView adView = new AdView(this);
+//        adView.setAdUnitId("ca-app-pub-6538546097765410/4579893970");
+//        adView.setAdSize(AdSize.BANNER);
+//
+//        banner_ad.removeAllViews();
+//        banner_ad.addView(adView);
+//
+//        AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
+//        adView.loadAd(adRequest);
 
         //====================================================
 
@@ -206,27 +209,18 @@ public class text_recognize_activity extends AppCompatActivity {
             public void onClick(View v) {
                 v.startAnimation(button_anim);
 
-//                if (ContextCompat.checkSelfPermission(text_recognize_activity.this, Manifest.permission.READ_MEDIA_IMAGES)
-//                        != PackageManager.PERMISSION_GRANTED) {
-//
-//                    if (ActivityCompat.shouldShowRequestPermissionRationale(text_recognize_activity.this, Manifest.permission.READ_MEDIA_IMAGES)) {
-//                        // Permission was denied but "Don't ask again" was not selected
-//                        // Request the permission again
-//                        ActivityCompat.requestPermissions(text_recognize_activity.this, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 100);
-//                    } else {
-//                        // Permission was denied and "Don't ask again" was selected
-//                        // Show an explanation dialog
-//                        showSettingsDialog();
-//                    }
-//
-//                }else{
 
+                if (permissionHandler.checkStoragePermission()){
                     Intent i = new Intent();
                     i.setType("image/*");
                     i.setAction(Intent.ACTION_GET_CONTENT);
                     gallery_launcher.launch(Intent.createChooser(i, "Select Image"));
+                }else {
+                    permissionHandler.requestPermissions();
+                }
 
-//                }
+
+
             }
         });
 
